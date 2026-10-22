@@ -56,3 +56,25 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-demo-app:latest
+
+  deploy:
+    name: Deploy Docker container
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-demo-app:latest
+            docker rm -f nodejs-demo || true
+            docker run -d \
+              --name nodejs-demo \
+              --restart unless-stopped \
+              -p 3000:3000 \
+              ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-demo-app:latest
+
