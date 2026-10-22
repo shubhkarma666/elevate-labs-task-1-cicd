@@ -1,4 +1,5 @@
-name: Node.js CI/CD
+```yaml
+name: Node.js CI/CD Pipeline
 
 on:
   push:
@@ -34,9 +35,6 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -70,11 +68,17 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
+
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-demo-app:latest
-            docker rm -f nodejs-demo || true
+
+            docker rm -f nodejs-demo 2>/dev/null || true
+
             docker run -d \
               --name nodejs-demo \
               --restart unless-stopped \
               -p 3000:3000 \
               ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-demo-app:latest
+```
+
 
