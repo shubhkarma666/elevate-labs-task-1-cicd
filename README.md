@@ -462,13 +462,19 @@ Through this project, I practiced:
 
 ## 15. Evidence
 
-Include screenshots of:
+## Project Screenshots
 
-1. A successful GitHub Actions workflow.
-2. The published Docker Hub image.
-3. The running Docker container on EC2.
-4. The application open in a browser.
-5. The successful health check response.
+### GitHub Actions Pipeline
+![Successful CI/CD pipeline](screenshots/githubworkflow-summary-pipeline.png)
+
+### Docker container on EC2.
+![Published Docker image](screenshots/docker-container-running.png)
+
+### Docker Hub Image
+![Published Docker image](screenshots/Dockerhub-repo.png)
+
+### Running Application
+![Node.js application](screenshots/onbrowser.png)   
 
 **Project scope:** This project automates testing, Docker image publishing, and container deployment to one EC2 instance. It is a learning deployment, not a highly available production architecture.
 
